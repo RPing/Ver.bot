@@ -9,19 +9,28 @@ function commandList() {
 }
 
 function flow(message, originalApiRequest) {
-    if (message.text === '/start' || message.text === '/start start') {
+    var text = message.text
+    var isCommand = message.originalRequest.message.entities
+                  && message.originalRequest.message.entities[0].type === 'bot_command'
+    var isGroup = message.originalRequest.message.chat.type === 'group'
+
+    if (isGroup && text === '') {
+        return ``
+    }
+
+    if (text === '/start') {
         return commandList()
     }
-    if (message.text === '/help') {
+    if (isCommand && text.startsWith('/help')) {
         return commandList()
     }
-    if (message.text === '/about') {
+    if (isCommand && text.startsWith('/about')) {
         // TODO
     }
-    if (message.text === '/ask') {
+    if (isCommand && text.startsWith('/ask')) {
         // TODO
     }
-    if (message.text === '/notify') {
+    if (isCommand && text.startsWith('/notify')) {
         // TODO
     }
 
