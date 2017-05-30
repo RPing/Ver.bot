@@ -1,5 +1,8 @@
 const telegramTemplate = require('claudia-bot-builder').telegramTemplate
 
+const askNameMsg = `What's the project name?`
+const askPlatformMsg = `Which platform the project release?`
+
 function commandList() {
     return `Here are available commands:\n` +
            `/ask can ask Vbot whether a project has any new version since a picked date\n` +
@@ -10,11 +13,16 @@ function commandList() {
 
 function flow(message, originalApiRequest) {
     var text = message.text
-    var isCommand = message.originalRequest.message.entities
-                  && message.originalRequest.message.entities[0].type === 'bot_command'
-    var isGroup = message.originalRequest.message.chat.type === 'group'
+    var origMsg = message.originalRequest.message
+    var isReply = message.originalRequest.hasOwnProperty('callback_query')
+                || origMsg.hasOwnProperty('reply_to_message')
 
-    if (isGroup && text === '') {
+    var isCommand = !isReply
+                  && origMsg.hasOwnProperty('entities')
+                  && origMsg.entities[0].type === 'bot_command'
+
+    /* when Vbot is in a group, any member join/remove message should be ignored. */
+    if (text === '') {
         return ``
     }
 
@@ -31,7 +39,43 @@ function flow(message, originalApiRequest) {
         // TODO
     }
     if (isCommand && text.startsWith('/notify')) {
-        // TODO
+        return new telegramTemplate.Text(askNameMsg).forceReply().get()
+    }
+
+    if (isReply) {
+        var question, callback_query_id
+        if (message.originalRequest.hasOwnProperty('callback_query')) {
+            question = message.originalRequest['callback_query'].message.text
+            callback_query_id = message.originalRequest['callback_query'].id
+        } else if (origMsg.hasOwnProperty('reply_to_message')) {
+            question = origMsg['reply_to_message'].text
+        }
+        var answer = message.text
+
+        switch (question) {
+            case askNameMsg:
+                // check answer first.
+                // save answer in DynamoDB!!
+                return new telegramTemplate.Text(askPlatformMsg)
+                    .addInlineKeyboard([
+                        [{ text: 'GitHub', callback_data: 'GitHub' },
+                          { text: 'PyPI', callback_data: 'PyPI' },
+                          { text: 'npm', callback_data: 'npm' }]
+                    ]).get()
+            case askPlatformMsg:
+                // check answer first.
+                // read name from DynamoDB, and ping the site
+                // save answer in DynamoDB!!
+                return {
+                    method: 'answerCallbackQuery',
+                    body: {
+                        callback_query_id: callback_query_id
+                    }
+                }
+            default:
+                return ``
+        }
+
     }
 
     return [
