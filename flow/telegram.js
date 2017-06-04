@@ -77,10 +77,6 @@ function flow(message, originalApiRequest) {
                         ]
                     }
                 }
-                return [
-                    `This platform is not supported by Vbot currently.`,
-                    constant.COMMAND_LIST
-                ]
             case constant.ASK_URL:
                 if (!origMsg.hasOwnProperty('entities') || origMsg.entities[0].type !== 'url') {
                     return [
