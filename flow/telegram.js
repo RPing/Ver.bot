@@ -4,14 +4,16 @@ const askUrlMsg = `What's the project url?`
 const askPlatformMsg = `Which platform the project release?`
 
 const supportedPlatform = [
-    { text: 'GitHub', callback_data: 'GitHub' },
-    { text: 'PyPI', callback_data: 'PyPI' },
-    { text: 'npm', callback_data: 'npm' }
+    {
+        name: 'GitHub', exampleUrl: `https://github.com/torvalds/linux`
+    },
+    {
+        name: 'PyPI', exampleUrl: `https://pypi.python.org/pypi/Django`
+    },
+    {
+        name: 'npm', exampleUrl: `https://www.npmjs.com/package/express`
+    }
 ]
-
-const githubExampleUrl = `https://github.com/torvalds/linux`
-const pypiExampleUrl = `https://pypi.python.org/pypi/Django`
-const npmExampleUrl = `https://www.npmjs.com/package/express`
 
 const commandList =
     `Here are available commands:\n` +
@@ -47,7 +49,12 @@ function flow(message, originalApiRequest) {
     if (isCommand && text.startsWith('/notify')) {
         return new telegramTemplate.Text(askPlatformMsg)
             .addInlineKeyboard([
-                supportedPlatform
+                supportedPlatform.map((platform) => {
+                    return {
+                        text: platform.name,
+                        callback_data: platform.name
+                    }
+                })
             ]).get()
     }
 
@@ -81,27 +88,18 @@ function flow(message, originalApiRequest) {
                     }
                 }
 
-                if (answer === 'GitHub') {
-                    return [
-                        callbackQuery,
-                        sendMsg(askUrlMsg + `\ne.g. ` + githubExampleUrl)
-                    ]
-                } else if (answer === 'PyPI') {
-                    return [
-                        callbackQuery,
-                        sendMsg(askUrlMsg + `\ne.g. ` + pypiExampleUrl)
-                    ]
-                } else if (answer === 'npm') {
-                    return [
-                        callbackQuery,
-                        sendMsg(askUrlMsg + `\ne.g. ` + npmExampleUrl)
-                    ]
-                } else {
-                    return [
-                        `This platform is not supported by Vbot currently.`,
-                        commandList
-                    ]
+                for (var i = supportedPlatform.length - 1; i >= 0; i--) {
+                    if (answer === supportedPlatform[i].name) {
+                        return [
+                            callbackQuery,
+                            sendMsg(askUrlMsg + `\ne.g. ` + supportedPlatform[i].exampleUrl)
+                        ]
+                    }
                 }
+                return [
+                    `This platform is not supported by Vbot currently.`,
+                    commandList
+                ]
             case askUrlMsg:
                 if (!origMsg.hasOwnProperty('entities') || origMsg.entities[0].type !== 'url') {
                     return [
@@ -126,3 +124,4 @@ function flow(message, originalApiRequest) {
 }
 
 module.exports = flow
+
