@@ -1,25 +1,6 @@
 const telegramTemplate = require('claudia-bot-builder').telegramTemplate
-
-const askUrlMsg = `What's the project url?`
-const askPlatformMsg = `Which platform the project release?`
-
-const supportedPlatform = [
-    {
-        name: 'GitHub', exampleUrl: `https://github.com/torvalds/linux`
-    },
-    {
-        name: 'PyPI', exampleUrl: `https://pypi.python.org/pypi/Django`
-    },
-    {
-        name: 'npm', exampleUrl: `https://www.npmjs.com/package/express`
-    }
-]
-
-const commandList =
-    `Here are available commands:\n` +
-    `/notify can choose the project that Vbot can automatically inform you when they release new version\n` +
-    `/help to show command list\n` +
-    `/about can tell you some information about Vbot`
+const constant = require('./constants')
+const supportedPlatform = constant.supportedPlatform
 
 function flow(message, originalApiRequest) {
     var text = message.text
@@ -38,16 +19,16 @@ function flow(message, originalApiRequest) {
     }
 
     if (text === '/start') {
-        return commandList
+        return constant.COMMAND_LIST
     }
     if (isCommand && text.startsWith('/help')) {
-        return commandList
+        return constant.COMMAND_LIST
     }
     if (isCommand && text.startsWith('/about')) {
         // TODO
     }
     if (isCommand && text.startsWith('/notify')) {
-        return new telegramTemplate.Text(askPlatformMsg)
+        return new telegramTemplate.Text(constant.ASK_PLATFORM)
             .addInlineKeyboard([
                 supportedPlatform.map((platform) => {
                     return {
@@ -70,7 +51,7 @@ function flow(message, originalApiRequest) {
         var answer = message.text
 
         switch (question) {
-            case askPlatformMsg:
+            case constant.ASK_PLATFORM:
                 // send to notify Telegram server that inline-keyboard is done.
                 const callbackQuery = {
                     method: 'answerCallbackQuery',
@@ -92,25 +73,25 @@ function flow(message, originalApiRequest) {
                     if (answer === supportedPlatform[i].name) {
                         return [
                             callbackQuery,
-                            sendMsg(askUrlMsg + `\ne.g. ` + supportedPlatform[i].exampleUrl)
+                            sendMsg(constant.ASK_URL + `\ne.g. ` + supportedPlatform[i].exampleUrl)
                         ]
                     }
                 }
                 return [
                     `This platform is not supported by Vbot currently.`,
-                    commandList
+                    constant.COMMAND_LIST
                 ]
-            case askUrlMsg:
+            case constant.ASK_URL:
                 if (!origMsg.hasOwnProperty('entities') || origMsg.entities[0].type !== 'url') {
                     return [
-                        `no project url found.`,
-                        commandList
+                        constant.URL_NOTFOUND,
+                        constant.COMMAND_LIST
                     ]
                 }
                 var url = answer.substr(origMsg.entities[0].offset, origMsg.entities[0].length)
                 // ping the site
                 // save answer in DynamoDB!!
-                return 'OK. Vbot will check this project every several days.'
+                return constant.REGISTER_FINISHED
             default:
                 return ``
         }
@@ -118,8 +99,8 @@ function flow(message, originalApiRequest) {
     }
 
     return [
-        `sorry, I don't understand what you mean.`,
-        commandList
+        constant.UNKNOWN_MESSAGE,
+        constant.COMMAND_LIST
     ]
 }
 
