@@ -4,13 +4,13 @@ const constant = require('./constants')
 const supportedPlatform = constant.supportedPlatform
 
 function flow(message, originalApiRequest) {
-    var text = message.text
-    var origMsg = message.originalRequest.message
+    let text = message.text
+    let origMsg = message.originalRequest.message
     /* refer to Telegram doc: callback_query is for inline-keyboard, reply_to_message is for force-reply */
-    var isReply = message.originalRequest.hasOwnProperty('callback_query')
+    let isReply = message.originalRequest.hasOwnProperty('callback_query')
                 || origMsg.hasOwnProperty('reply_to_message')
 
-    var isCommand = !isReply
+    let isCommand = !isReply
                   && origMsg.hasOwnProperty('entities')
                   && origMsg.entities[0].type === 'bot_command'
 
@@ -41,7 +41,8 @@ function flow(message, originalApiRequest) {
     }
 
     if (isReply) {
-        var lastAsk, callback_query_id
+        let lastAsk, callback_query_id
+        let answer = message.text
         if (message.originalRequest.hasOwnProperty('callback_query')) {
             lastAsk = message.originalRequest['callback_query'].message.text
             callback_query_id = message.originalRequest['callback_query'].id
@@ -49,7 +50,6 @@ function flow(message, originalApiRequest) {
             lastAsk = origMsg['reply_to_message'].text
         }
         question = lastAsk.split('\ne.g. ')[0]
-        var answer = message.text
 
         switch (question) {
             case constant.ASK_PLATFORM:
@@ -70,7 +70,7 @@ function flow(message, originalApiRequest) {
                     }
                 }
 
-                for (var i = supportedPlatform.length - 1; i >= 0; i--) {
+                for (let i = supportedPlatform.length - 1; i >= 0; i--) {
                     if (answer === supportedPlatform[i].name) {
                         return [
                             callbackQuery,
@@ -86,15 +86,15 @@ function flow(message, originalApiRequest) {
                         constant.COMMAND_LIST
                     ]
                 }
-                var url = answer.substr(origMsg.entities[0].offset, origMsg.entities[0].length)
+                let url = answer.substr(origMsg.entities[0].offset, origMsg.entities[0].length)
                 /* i don't want to store tmp state to dynamoDB, so ... just check platform by example url */
-                var exampleUrl = lastAsk.split('\ne.g. ')[1]
-                for (var i = supportedPlatform.length - 1; i >= 0; i--) {
+                let exampleUrl = lastAsk.split('\ne.g. ')[1]
+                for (let i = supportedPlatform.length - 1; i >= 0; i--) {
                     if (exampleUrl === supportedPlatform[i].exampleUrl) {
                         break
                     }
                 }
-                var platform = supportedPlatform[i].name
+                let platform = supportedPlatform[i].name
 
                 if (!site.isMatchUrlPattern(url, platform)) {
                     return [
