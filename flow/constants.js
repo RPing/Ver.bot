@@ -13,6 +13,13 @@ const constants = {
 
     URL_NOTFOUND: `no project url found.`,
 
+    URL_NOTCORRECT: `your project url seems not correct. please refer to example url.`,
+
+    PING_ERROR:
+        `failed when check the project existence,\n` +
+        `it may result from typos in url or some server error.\n` +
+        `feel free to report an issue if an error still occurred.`,
+
     UNKNOWN_MESSAGE: `sorry, I don't understand what you mean.`,
 
     supportedPlatform: [

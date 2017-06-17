@@ -18,10 +18,13 @@
   "author": "RPing (Stephen Chen) <g1222888@gmail.com>",
   "license": "AGPL v3",
   "dependencies": {
-    "claudia-bot-builder": "^2.15.0"
+    "claudia-bot-builder": "^2.15.0",
+    "request": "^2.81.0"
   },
   "devDependencies": {
-    "aws-sdk": "^2.58.0",
     "claudia": "^2.12.1"
+  },
+  "optionalDependencies": {
+    "aws-sdk": "^2.72.0"
   }
 }

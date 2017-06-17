@@ -1,4 +1,5 @@
 const telegramTemplate = require('claudia-bot-builder').telegramTemplate
+const site = require('../lib/site-utils')
 const constant = require('./constants')
 const supportedPlatform = constant.supportedPlatform
 
@@ -40,14 +41,14 @@ function flow(message, originalApiRequest) {
     }
 
     if (isReply) {
-        var question, callback_query_id
+        var lastAsk, callback_query_id
         if (message.originalRequest.hasOwnProperty('callback_query')) {
-            question = message.originalRequest['callback_query'].message.text
+            lastAsk = message.originalRequest['callback_query'].message.text
             callback_query_id = message.originalRequest['callback_query'].id
         } else if (origMsg.hasOwnProperty('reply_to_message')) {
-            question = origMsg['reply_to_message'].text
+            lastAsk = origMsg['reply_to_message'].text
         }
-        question = question.split('\n')[0]
+        question = lastAsk.split('\ne.g. ')[0]
         var answer = message.text
 
         switch (question) {
@@ -78,6 +79,7 @@ function flow(message, originalApiRequest) {
                     }
                 }
             case constant.ASK_URL:
+                // Telegram provided basic check
                 if (!origMsg.hasOwnProperty('entities') || origMsg.entities[0].type !== 'url') {
                     return [
                         constant.URL_NOTFOUND,
@@ -85,9 +87,35 @@ function flow(message, originalApiRequest) {
                     ]
                 }
                 var url = answer.substr(origMsg.entities[0].offset, origMsg.entities[0].length)
+                /* i don't want to store tmp state to dynamoDB, so ... just check platform by example url */
+                var exampleUrl = lastAsk.split('\ne.g. ')[1]
+                for (var i = supportedPlatform.length - 1; i >= 0; i--) {
+                    if (exampleUrl === supportedPlatform[i].exampleUrl) {
+                        break
+                    }
+                }
+                var platform = supportedPlatform[i].name
+
+                if (!site.isMatchUrlPattern(url, platform)) {
+                    return [
+                        constant.URL_NOTCORRECT,
+                        constant.COMMAND_LIST
+                    ]
+                }
                 // ping the site
-                // save answer in DynamoDB!!
-                return constant.REGISTER_FINISHED
+                return site.pingSitePromise(url, platform)
+                        .then(() => {
+                            // save answer in DynamoDB!!
+                            return constant.REGISTER_FINISHED
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                            return [
+                                constant.PING_ERROR,
+                                constant.COMMAND_LIST
+                            ]
+                        })
+
             default:
                 return ``
         }
