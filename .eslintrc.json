@@ -1,0 +1,53 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": "airbnb-base",
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "rules": {
+        "indent": [
+            "error",
+            4,
+            { "SwitchCase": 1 }
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        "comma-dangle": ["error", {
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "never",
+            "exports": "never",
+            "functions": "ignore"
+        }],
+        "no-underscore-dangle": ["error", {
+            "allowAfterThis": true,
+            "allow": [
+                "_isMatchUrlPattern",
+                "_pingSitePromise"
+            ]
+        }],
+        "one-var": ["warn", {
+            "initialized": "never"
+        }],
+        "no-unused-vars": "warn",
+        "no-shadow": "warn",
+        "prefer-template": "warn",
+        "no-prototype-builtins": "off",
+        "no-plusplus": "off",
+        "no-console": "off",
+        "camelcase": "off"
+    }
+}

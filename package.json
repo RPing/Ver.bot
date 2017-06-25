@@ -4,6 +4,7 @@
   "description": "how to know new version release? Vbot!",
   "main": "bot.js",
   "scripts": {
+    "lint": "node_modules/eslint/bin/eslint.js . ; exit 0",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -22,7 +23,10 @@
     "request": "^2.81.0"
   },
   "devDependencies": {
-    "claudia": "^2.12.1"
+    "claudia": "^2.12.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.6.0"
   },
   "optionalDependencies": {
     "aws-sdk": "^2.72.0"

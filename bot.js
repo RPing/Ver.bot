@@ -3,8 +3,8 @@ const telegramFlow = require('./flow/telegram')
 
 const options = {
     platforms: [
-        'telegram'
-    ]
+        'telegram',
+    ],
 }
 
 module.exports = botBuilder((message, originalApiRequest) => {
@@ -14,4 +14,6 @@ module.exports = botBuilder((message, originalApiRequest) => {
     if (message.type === 'telegram') {
         return telegramFlow(message, originalApiRequest)
     }
+
+    return 'The messaging platform has not supported yet.'
 }, options)
