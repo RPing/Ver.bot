@@ -46,7 +46,6 @@
         "no-shadow": "warn",
         "prefer-template": "warn",
         "no-prototype-builtins": "off",
-        "no-plusplus": "off",
         "no-console": "off",
         "camelcase": "off"
     }

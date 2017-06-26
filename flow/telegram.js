@@ -69,17 +69,13 @@ function flow(message, originalApiRequest) {
                         force_reply: true
                     }
                 })
+                const askURL = platform => [
+                    callbackQuery,
+                    // eslint-disable-next-line prefer-template
+                    sendMsg(constant.ASK_URL + '\ne.g. ' + platform.exampleUrl)
+                ]
 
-                for (let i = supportedPlatform.length - 1; i >= 0; i--) {
-                    if (text === supportedPlatform[i].name) {
-                        return [
-                            callbackQuery,
-                            // eslint-disable-next-line prefer-template
-                            sendMsg(constant.ASK_URL + '\ne.g. ' + supportedPlatform[i].exampleUrl)
-                        ]
-                    }
-                }
-                break
+                return askURL(supportedPlatform.find(el => text === el.name))
             }
             case constant.ASK_URL: {
                 // Telegram provided basic check
@@ -92,15 +88,8 @@ function flow(message, originalApiRequest) {
                 const url = text.substr(origMsg.entities[0].offset, origMsg.entities[0].length)
                 /* I don't want to store tmp state to dynamoDB,
                    so ... just check platform by example url */
-                let platform
                 const exampleUrl = lastAsk.split('\ne.g. ')[1]
-
-                for (let i = supportedPlatform.length - 1; i >= 0; i--) {
-                    if (exampleUrl === supportedPlatform[i].exampleUrl) {
-                        platform = supportedPlatform[i].name
-                        break
-                    }
-                }
+                const platform = supportedPlatform.find(el => exampleUrl === el.exampleUrl).name
 
                 if (!site.isMatchUrlPattern(url, platform)) {
                     return [
