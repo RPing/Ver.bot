@@ -1,6 +1,7 @@
 /* eslint-disable comma-dangle */
 const telegramTemplate = require('claudia-bot-builder').telegramTemplate
 const site = require('../lib/site-utils')
+const db = require('../lib/db')
 const constant = require('./constants')
 
 const supportedPlatform = constant.supportedPlatform
@@ -86,6 +87,7 @@ function flow(message, originalApiRequest) {
                     ]
                 }
                 const url = text.substr(origMsg.entities[0].offset, origMsg.entities[0].length)
+                const projectName = /(?:.+)\/(.*?)(?:\/|$)/.exec(url)[1]
                 /* I don't want to store tmp state to dynamoDB,
                    so ... just check platform by example url */
                 const exampleUrl = lastAsk.split('\ne.g. ')[1]
@@ -97,16 +99,14 @@ function flow(message, originalApiRequest) {
                         constant.COMMAND_LIST
                     ]
                 }
-                // ping the site
+
                 return site.pingSitePromise(url, platform)
-                    .then(() => {
-                        // save answer in DynamoDB!!
-                        return constant.REGISTER_FINISHED
-                    })
+                    .then(() => db.storeProjectPromise(projectName, message.sender, 'telegram', platform))
+                    .then(() => constant.REGISTER_FINISHED)
                     .catch((error) => {
-                        console.log(error)
+                        console.error(error)
                         return [
-                            constant.PING_ERROR,
+                            error.message,
                             constant.COMMAND_LIST
                         ]
                     })

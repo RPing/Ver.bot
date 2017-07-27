@@ -1,0 +1,22 @@
+{
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "project_name",
+            "AttributeType": "S"
+        }
+    ],
+    "TableName": "ProjectDetail",
+    "KeySchema": [
+        {
+            "AttributeName": "project_name",
+            "KeyType": "HASH"
+        }
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+    },
+    "StreamSpecification": {
+        "StreamEnabled": false
+    }
+}

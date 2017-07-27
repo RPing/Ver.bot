@@ -36,7 +36,8 @@
             "allowAfterThis": true,
             "allow": [
                 "_isMatchUrlPattern",
-                "_pingSitePromise"
+                "_pingSitePromise",
+                "_storeProjectPromise"
             ]
         }],
         "one-var": ["warn", {

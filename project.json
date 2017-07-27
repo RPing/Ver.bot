@@ -1,0 +1,52 @@
+{
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "subscriber_and_platform",
+            "AttributeType": "S"
+        },
+        {
+            "AttributeName": "project_name",
+            "AttributeType": "S"
+        }
+    ],
+    "TableName": "ProjectSubscriber",
+    "KeySchema": [
+        {
+            "AttributeName": "project_name",
+            "KeyType": "HASH"
+        },
+        {
+            "AttributeName": "subscriber_and_platform",
+            "KeyType": "RANGE"
+        }
+    ],
+    "GlobalSecondaryIndexes": [
+        {
+            "IndexName": "UserSubscription",
+            "KeySchema": [
+                {
+                    "AttributeName": "subscriber_and_platform",
+                    "KeyType": "HASH"
+                },
+                {
+                    "AttributeName": "project_name",
+                    "KeyType": "RANGE"
+                }
+            ],
+            "Projection": {
+                "ProjectionType": "KEYS_ONLY"
+            },
+            "ProvisionedThroughput": {
+                "ReadCapacityUnits": 5,
+                "WriteCapacityUnits": 5
+            }
+        }
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+    },
+    "StreamSpecification": {
+        "StreamEnabled": false
+    }
+}
