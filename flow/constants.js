@@ -5,7 +5,7 @@ const constants = {
 
     COMMAND_LIST:
         'Here are available commands:\n' +
-        '/notify can choose the project that Vbot can automatically inform you when they release new version\n' +
+        '/subscribe can choose the project that Vbot can automatically inform you when they release new version\n' +
         '/help to show command list\n' +
         '/about can tell you some information about Vbot',
 
@@ -18,15 +18,15 @@ const constants = {
     PING_ERROR:
         'failed when check the project existence,\n' +
         'it may result from typos in url or some server error.\n' +
-        'feel free to report an issue if an error still occurred.',
+        'feel free to report an issue if an error still occurs.',
 
     DATABASE_ERROR:
         'failed when communicate with database.\n' +
-        'please report an issue if an error still occurred.',
+        'please report an issue if an error still occurs.',
 
     UNKNOWN_ERROR:
         'some unknown error occurred ...\n' +
-        'please report an issue if an error still occurred.',
+        'please report an issue if an error still occurs.',
 
     UNKNOWN_MESSAGE: 'sorry, I don\'t understand what you mean.',
 

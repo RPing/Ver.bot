@@ -33,7 +33,7 @@ function flow(message, originalApiRequest) {
     if (isCommand && text.startsWith('/about')) {
         // TODO
     }
-    if (isCommand && text.startsWith('/notify')) {
+    if (isCommand && text.startsWith('/subscribe')) {
         return new telegramTemplate.Text(constant.ASK_PLATFORM)
             .addInlineKeyboard([
                 supportedPlatform.map(platform => ({
