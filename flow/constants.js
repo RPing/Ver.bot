@@ -24,6 +24,10 @@ const constants = {
         'failed when communicate with database.\n' +
         'please report an issue if an error still occurred.',
 
+    UNKNOWN_ERROR:
+        'some unknown error occurred ...\n' +
+        'please report an issue if an error still occurred.',
+
     UNKNOWN_MESSAGE: 'sorry, I don\'t understand what you mean.',
 
     supportedPlatform: [

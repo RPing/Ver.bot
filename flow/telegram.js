@@ -3,6 +3,7 @@ const telegramTemplate = require('claudia-bot-builder').telegramTemplate
 const site = require('../lib/site-utils')
 const db = require('../lib/db')
 const constant = require('./constants')
+const error = require('../lib/error')
 
 const supportedPlatform = constant.supportedPlatform
 
@@ -103,10 +104,12 @@ function flow(message, originalApiRequest) {
                 return site.pingSitePromise(url, platform)
                     .then(() => db.storeProjectPromise(projectName, message.sender, 'telegram', platform))
                     .then(() => constant.REGISTER_FINISHED)
-                    .catch((error) => {
-                        console.error(error)
+                    .catch((err) => {
+                        console.error(err)
+
+                        const errorMsgKey = error.getErrorType(err)
                         return [
-                            error.message,
+                            constant[errorMsgKey] || constant.UNKNOWN_ERROR,
                             constant.COMMAND_LIST
                         ]
                     })
