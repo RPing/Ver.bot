@@ -29,16 +29,19 @@ describe('site-utils', function () {
         let tests = [{
             site: 'GitHub',
             correct: 'https://github.com/torvalds/linux',
+            http_prefix: 'http://github.com/torvalds/linux',
             no_prefix: 'github.com/torvalds/linux',
             typo: 'https://githuv.com/torvalds/linux',
         }, {
             site: 'PyPI',
             correct: 'https://pypi.python.org/pypi/Django',
+            http_prefix: 'http://pypi.python.org/pypi/Django',
             no_prefix: 'pypi.python.org/pypi/Django',
             typo: 'pypi.python.org//pypi/Django',
         }, {
             site: 'npm',
             correct: 'https://www.npmjs.com/package/express',
+            http_prefix: 'http://www.npmjs.com/package/express',
             no_prefix: 'www.npmjs.com/package/express',
             typo: 'https://www.npmj.com/package/express',
         }]
@@ -47,6 +50,10 @@ describe('site-utils', function () {
             describe(test.site, function() {
                 it('match pattern', function() {
                     let isMatch = site.isMatchUrlPattern(test.correct, test.site)
+                    assert.equal(isMatch, true)
+                })
+                it('http prefix will transform to https prefix', function() {
+                    let isMatch = site.isMatchUrlPattern(test.http_prefix, test.site)
                     assert.equal(isMatch, true)
                 })
                 it('no protocal prefix is OK', function() {
