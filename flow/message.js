@@ -1,4 +1,4 @@
-const constants = {
+const msg = {
     ASK_URL: 'What\'s the project url?',
 
     ASK_PLATFORM: 'Which platform the project release?',
@@ -37,4 +37,4 @@ const constants = {
     ],
 }
 
-module.exports = constants
+module.exports = msg

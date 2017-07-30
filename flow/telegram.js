@@ -2,10 +2,10 @@
 const telegramTemplate = require('claudia-bot-builder').telegramTemplate
 const site = require('../lib/site-utils')
 const db = require('../lib/db')
-const constant = require('./constants')
+const msg = require('./message')
 const error = require('../lib/error')
 
-const supportedPlatform = constant.supportedPlatform
+const supportedPlatform = msg.supportedPlatform
 
 function flow(message, originalApiRequest) {
     const text = message.text
@@ -25,16 +25,16 @@ function flow(message, originalApiRequest) {
     }
 
     if (text === '/start') {
-        return constant.COMMAND_LIST
+        return msg.COMMAND_LIST
     }
     if (isCommand && text.startsWith('/help')) {
-        return constant.COMMAND_LIST
+        return msg.COMMAND_LIST
     }
     if (isCommand && text.startsWith('/about')) {
         // TODO
     }
     if (isCommand && text.startsWith('/subscribe')) {
-        return new telegramTemplate.Text(constant.ASK_PLATFORM)
+        return new telegramTemplate.Text(msg.ASK_PLATFORM)
             .addInlineKeyboard([
                 supportedPlatform.map(platform => ({
                     text: platform.name,
@@ -56,7 +56,7 @@ function flow(message, originalApiRequest) {
         const question = lastAsk.split('\ne.g. ')[0]
 
         switch (question) {
-            case constant.ASK_PLATFORM: {
+            case msg.ASK_PLATFORM: {
                 // send to notify Telegram server that inline-keyboard is done.
                 const callbackQuery = {
                     method: 'answerCallbackQuery',
@@ -74,17 +74,17 @@ function flow(message, originalApiRequest) {
                 const askURL = platform => [
                     callbackQuery,
                     // eslint-disable-next-line prefer-template
-                    sendMsg(constant.ASK_URL + '\ne.g. ' + platform.exampleUrl)
+                    sendMsg(msg.ASK_URL + '\ne.g. ' + platform.exampleUrl)
                 ]
 
                 return askURL(supportedPlatform.find(el => text === el.name))
             }
-            case constant.ASK_URL: {
+            case msg.ASK_URL: {
                 // Telegram provided basic check
                 if (!origMsg.hasOwnProperty('entities') || origMsg.entities[0].type !== 'url') {
                     return [
-                        constant.URL_NOTFOUND,
-                        constant.COMMAND_LIST
+                        msg.URL_NOTFOUND,
+                        msg.COMMAND_LIST
                     ]
                 }
                 const url = text.substr(origMsg.entities[0].offset, origMsg.entities[0].length)
@@ -96,21 +96,21 @@ function flow(message, originalApiRequest) {
 
                 if (!site.isMatchUrlPattern(url, platform)) {
                     return [
-                        constant.URL_NOTCORRECT,
-                        constant.COMMAND_LIST
+                        msg.URL_NOTCORRECT,
+                        msg.COMMAND_LIST
                     ]
                 }
 
                 return site.pingSitePromise(url, platform)
                     .then(() => db.storeProjectPromise(projectName, message.sender, 'telegram', platform))
-                    .then(() => constant.REGISTER_FINISHED)
+                    .then(() => msg.REGISTER_FINISHED)
                     .catch((err) => {
                         console.error(err)
 
                         const errorMsgKey = error.getErrorType(err)
                         return [
-                            constant[errorMsgKey] || constant.UNKNOWN_ERROR,
-                            constant.COMMAND_LIST
+                            msg[errorMsgKey] || msg.UNKNOWN_ERROR,
+                            msg.COMMAND_LIST
                         ]
                     })
             }
@@ -120,8 +120,8 @@ function flow(message, originalApiRequest) {
     }
 
     return [
-        constant.UNKNOWN_MESSAGE,
-        constant.COMMAND_LIST
+        msg.UNKNOWN_MESSAGE,
+        msg.COMMAND_LIST
     ]
 }
 
