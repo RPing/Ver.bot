@@ -1,4 +1,3 @@
-/* eslint-disable comma-dangle */
 const telegramTemplate = require('claudia-bot-builder').telegramTemplate
 const site = require('../lib/site-utils')
 const db = require('../lib/db')
@@ -64,6 +63,7 @@ function flow(message, originalApiRequest) {
                         callback_query_id
                     }
                 }
+                // eslint-disable-next-line no-shadow
                 const sendMsg = text => ({
                     text,
                     disable_web_page_preview: true,
@@ -73,7 +73,6 @@ function flow(message, originalApiRequest) {
                 })
                 const askURL = platform => [
                     callbackQuery,
-                    // eslint-disable-next-line prefer-template
                     sendMsg(msg.ASK_URL + '\ne.g. ' + platform.exampleUrl)
                 ]
 

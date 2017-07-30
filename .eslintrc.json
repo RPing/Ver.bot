@@ -25,13 +25,6 @@
             "error",
             "never"
         ],
-        "comma-dangle": ["error", {
-            "arrays": "always-multiline",
-            "objects": "always-multiline",
-            "imports": "never",
-            "exports": "never",
-            "functions": "ignore"
-        }],
         "no-underscore-dangle": ["error", {
             "allowAfterThis": true,
             "allow": [
@@ -43,11 +36,18 @@
         "one-var": ["warn", {
             "initialized": "never"
         }],
+        "no-console": ["warn", {
+            "allow": [
+                "warn",
+                "error"
+            ]
+        }],
         "no-unused-vars": "warn",
         "no-shadow": "warn",
-        "prefer-template": "warn",
+        "comma-dangle": "off",
+        "prefer-template": "off",
+        "func-names": "off",
         "no-prototype-builtins": "off",
-        "no-console": "off",
         "camelcase": "off"
     }
 }
