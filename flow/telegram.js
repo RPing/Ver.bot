@@ -4,7 +4,7 @@ const db = require('../lib/db')
 const msg = require('./message')
 const error = require('../lib/error')
 
-const supportedPlatform = msg.supportedPlatform
+const platforms = Object.keys(msg.EXAMPLE_URL)
 
 function flow(message, originalApiRequest) {
     const text = message.text
@@ -33,13 +33,17 @@ function flow(message, originalApiRequest) {
         // TODO
     }
     if (isCommand && text.startsWith('/subscribe')) {
+        const rowChoice = []
+        // const platformName = Object.keys(msg.EXAMPLE_URL)
+        platforms.forEach((name) => {
+            rowChoice.push({
+                text: name,
+                callback_data: name
+            })
+        })
+
         return new telegramTemplate.Text(msg.ASK_PLATFORM)
-            .addInlineKeyboard([
-                supportedPlatform.map(platform => ({
-                    text: platform.name,
-                    callback_data: platform.name
-                }))
-            ]).get()
+                    .addInlineKeyboard([rowChoice]).get()
     }
 
     if (isReply) {
@@ -71,12 +75,12 @@ function flow(message, originalApiRequest) {
                         force_reply: true
                     }
                 })
-                const askURL = platform => [
+                const askURL = exampleUrl => [
                     callbackQuery,
-                    sendMsg(msg.ASK_URL + '\ne.g. ' + platform.exampleUrl)
+                    sendMsg(msg.ASK_URL + '\ne.g. ' + exampleUrl)
                 ]
 
-                return askURL(supportedPlatform.find(el => text === el.name))
+                return askURL(msg.EXAMPLE_URL[text])
             }
             case msg.ASK_URL: {
                 // Telegram provided basic check
@@ -91,7 +95,12 @@ function flow(message, originalApiRequest) {
                 /* I don't want to store tmp state to dynamoDB,
                    so ... just check platform by example url */
                 const exampleUrl = lastAsk.split('\ne.g. ')[1]
-                const platform = supportedPlatform.find(el => exampleUrl === el.exampleUrl).name
+                let platform
+                platforms.forEach((p) => {
+                    if (msg.EXAMPLE_URL[p] === exampleUrl) {
+                        platform = p
+                    }
+                })
 
                 if (!site.isMatchUrlPattern(url, platform)) {
                     return [

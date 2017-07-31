@@ -30,11 +30,11 @@ const msg = {
 
     UNKNOWN_MESSAGE: 'sorry, I don\'t understand what you mean.',
 
-    supportedPlatform: [
-        { name: 'GitHub', exampleUrl: 'https://github.com/torvalds/linux' },
-        { name: 'PyPI', exampleUrl: 'https://pypi.python.org/pypi/Django' },
-        { name: 'npm', exampleUrl: 'https://www.npmjs.com/package/express' },
-    ],
+    EXAMPLE_URL: {
+        GitHub: 'https://github.com/torvalds/linux',
+        PyPI: 'https://pypi.python.org/pypi/Django',
+        npm: 'https://www.npmjs.com/package/express',
+    },
 }
 
 module.exports = msg
