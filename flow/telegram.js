@@ -4,7 +4,7 @@ const db = require('../lib/db')
 const msg = require('./message')
 const error = require('../lib/error')
 
-const platforms = Object.keys(msg.EXAMPLE_URL)
+const projectPlatforms = Object.keys(msg.EXAMPLE_URL)
 
 function flow(message, originalApiRequest) {
     const text = message.text
@@ -34,8 +34,8 @@ function flow(message, originalApiRequest) {
     }
     if (isCommand && text.startsWith('/subscribe')) {
         const rowChoice = []
-        // const platformName = Object.keys(msg.EXAMPLE_URL)
-        platforms.forEach((name) => {
+
+        projectPlatforms.forEach((name) => {
             rowChoice.push({
                 text: name,
                 callback_data: name
@@ -96,7 +96,7 @@ function flow(message, originalApiRequest) {
                    so ... just check platform by example url */
                 const exampleUrl = lastAsk.split('\ne.g. ')[1]
                 let platform
-                platforms.forEach((p) => {
+                projectPlatforms.forEach((p) => {
                     if (msg.EXAMPLE_URL[p] === exampleUrl) {
                         platform = p
                     }
