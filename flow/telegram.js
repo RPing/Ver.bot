@@ -6,6 +6,16 @@ const error = require('../lib/error')
 
 const projectPlatforms = Object.keys(msg.EXAMPLE_URL)
 
+function promiseErrorHandler(err) {
+    console.error(err)
+
+    const errorMsgKey = error.getErrorType(err)
+    return [
+        msg[errorMsgKey] || msg.UNKNOWN_ERROR,
+        msg.COMMAND_LIST
+    ]
+}
+
 function flow(message, originalApiRequest) {
     const text = message.text
     const origMsg = message.originalRequest.message
@@ -45,6 +55,22 @@ function flow(message, originalApiRequest) {
         return new telegramTemplate.Text(msg.ASK_PLATFORM)
                     .addInlineKeyboard([rowChoice]).get()
     }
+    if (isCommand && text.startsWith('/unsubscribe')) {
+        return db.listSubscriptionPromise(message.sender, 'telegram')
+                    .then((data) => {
+                        const wholeArray = []
+                        data.Items.forEach((item) => {
+                            wholeArray.push([{
+                                text: item.project_name,
+                                callback_data: item.project_name
+                            }])
+                        })
+
+                        return new telegramTemplate.Text(msg.ASK_UNSUBSCRIBE)
+                                    .addInlineKeyboard(wholeArray).get()
+                    })
+                    .catch(err => promiseErrorHandler(err))
+    }
 
     if (isReply) {
         let lastAsk,
@@ -58,15 +84,16 @@ function flow(message, originalApiRequest) {
         }
         const question = lastAsk.split('\ne.g. ')[0]
 
+        // send to notify Telegram server that inline-keyboard is done.
+        const callbackQuery = {
+            method: 'answerCallbackQuery',
+            body: {
+                callback_query_id
+            }
+        }
+
         switch (question) {
             case msg.ASK_PLATFORM: {
-                // send to notify Telegram server that inline-keyboard is done.
-                const callbackQuery = {
-                    method: 'answerCallbackQuery',
-                    body: {
-                        callback_query_id
-                    }
-                }
                 // eslint-disable-next-line no-shadow
                 const sendMsg = text => ({
                     text,
@@ -112,15 +139,15 @@ function flow(message, originalApiRequest) {
                 return site.pingSitePromise(url, platform)
                     .then(() => db.storeProjectPromise(projectName, message.sender, 'telegram', platform))
                     .then(() => msg.REGISTER_FINISHED)
-                    .catch((err) => {
-                        console.error(err)
-
-                        const errorMsgKey = error.getErrorType(err)
-                        return [
-                            msg[errorMsgKey] || msg.UNKNOWN_ERROR,
-                            msg.COMMAND_LIST
-                        ]
-                    })
+                    .catch(err => promiseErrorHandler(err))
+            }
+            case msg.ASK_UNSUBSCRIBE: {
+                return db.deleteSubscriptionPromise(text, message.sender, 'telegram')
+                    .then(() => [
+                        callbackQuery,
+                        msg.UNSUBSCRIBE_FINISHED
+                    ])
+                    .catch(err => promiseErrorHandler(err))
             }
             default:
                 return ''
