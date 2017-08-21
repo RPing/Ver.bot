@@ -19,7 +19,7 @@
   "author": "RPing (Stephen Chen) <g1222888@gmail.com>",
   "license": "AGPL v3",
   "dependencies": {
-    "claudia-bot-builder": "^2.15.0",
+    "claudia-bot-builder": "RPing/claudia-bot-builder#skype-reply-markdown",
     "request": "^2.81.0"
   },
   "devDependencies": {
