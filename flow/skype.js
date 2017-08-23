@@ -34,6 +34,18 @@ function flow(message, originalApiRequest) {
 
         return ask.get()
     }
+    if (text === 'unsubscribe') {
+        return db.listSubscriptionPromise(message.sender, 'skype')
+                    .then((data) => {
+                        const ask = new skypeTemplate.Carousel(msg.ASK_UNSUBSCRIBE, msg.ASK_UNSUBSCRIBE).addReceipt()
+                        data.Items.forEach((item) => {
+                            ask.addButton(item.project_name, item.project_name, 'imBack')
+                        })
+
+                        return ask.get()
+                    })
+                    .catch(err => promiseErrorHandler(err))
+    }
 
     // Reply
     // user select a platform from command 'subscribe'
@@ -61,6 +73,12 @@ function flow(message, originalApiRequest) {
         return site.pingSitePromise(url, platform)
                 .then(() => db.storeProjectPromise(projectName, message.sender, 'skype', platform))
                 .then(() => msg.REGISTER_FINISHED)
+                .catch(err => promiseErrorHandler(err))
+    }
+
+    if (site.isProjectName(text)) {
+        return db.deleteSubscriptionPromise(text, message.sender, 'skype')
+                .then(() => msg.UNSUBSCRIBE_FINISHED)
                 .catch(err => promiseErrorHandler(err))
     }
 
