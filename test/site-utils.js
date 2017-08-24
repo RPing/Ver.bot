@@ -67,4 +67,34 @@ describe('site-utils', function () {
             })
         })
     })
+
+    describe('whether an input string is a valid project name', function () {
+        it('valid #1', function () {
+            const isMatch = site.isProjectName('django')
+            assert.equal(isMatch, true)
+        })
+        it('valid #2', function () {
+            const isMatch = site.isProjectName('claudia-bot-builder')
+            assert.equal(isMatch, true)
+        })
+        it('valid #3', function () {
+            const isMatch = site.isProjectName('spee.ch')
+            assert.equal(isMatch, true)
+        })
+        it('invalid', function () {
+            const isMatch = site.isProjectName('spee~ch')
+            assert.equal(isMatch, false)
+        })
+    })
+
+    describe('get platform name by url', function () {
+        it('get correct platform name', function () {
+            const name = site.getPlatformByUrl('https://github.com/torvalds/linux')
+            assert.equal(name, 'GitHub')
+        })
+        it('return null if a valid platform is not found', function () {
+            const name = site.getPlatformByUrl('https://www.google.com')
+            assert.equal(name, null)
+        })
+    })
 })
