@@ -30,6 +30,9 @@ const msg = {
 
     UNSUBSCRIBE_FINISHED: 'unsubscription complete.',
 
+    NO_SUBSCRIBED_PROJECT:
+        'You don\'t have any project subscribed.',
+
     URL_NOTFOUND: 'no project url found.',
 
     URL_NOTCORRECT: 'your project url seems not correct. please refer to example url.',

@@ -28,6 +28,7 @@ function flow(message, originalApiRequest) {
     }
     if (command === '/subscribe') {
         const ask = new SlackTemplate('Subscribe project!')
+            .channelMessage(true)
             .replaceOriginal(true)
             .addAttachment('ask_platform')
 
@@ -37,13 +38,54 @@ function flow(message, originalApiRequest) {
 
         return ask.get()
     }
+    if (command === '/unsubscribe') {
+        return db.listSubscriptionPromise(message.sender, 'slack')
+            .then((data) => {
+                if (data.Items.length === 0) {
+                    return new SlackTemplate(msg.NO_SUBSCRIBED_PROJECT)
+                        .channelMessage(true)
+                        .get()
+                }
+
+                const ask = new SlackTemplate('Unsubscribe project!')
+                                .channelMessage(true)
+                                .addAttachment('ask_unsubscribe')
+
+                // TODO: claudia-bot-builder Slack select menu support!
+                const actions = ask.getLatestAttachment().actions
+                actions.push({
+                    name: 'project_list',
+                    text: msg.ASK_UNSUBSCRIBE,
+                    type: 'select',
+                    options: []
+                })
+                const options = actions[0].options
+
+                data.Items.forEach((item) => {
+                    options.push({
+                        text: item.project_name,
+                        value: item.project_name
+                    })
+                })
+                return ask.get()
+            })
+            .catch(err => promiseErrorHandler(err))
+    }
 
     const callback_id = message.originalRequest.callback_id
     if (callback_id === 'ask_platform') {
         const answer = message.originalRequest.actions[0].value
         return msg.ASK_PLATFORM + '\ne.g. ' + msg.EXAMPLE_URL[answer]
     }
+    if (callback_id === 'ask_unsubscribe') {
+        const answer = message.originalRequest.actions[0].selected_options[0].value
+        return db.deleteSubscriptionPromise(answer, message.sender, 'slack')
+            .then(() => msg.UNSUBSCRIBE_FINISHED)
+            .catch(err => promiseErrorHandler(err))
+    }
 
+    // subscribe project by url
+    // Slack returns <INPUT_URL>
     if (text.startsWith('<')) {
         const url = text.slice(1, -1)
         const platform = site.getPlatformByUrl(url)

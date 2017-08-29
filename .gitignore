@@ -1,3 +1,4 @@
 node_modules
 claudia.json
 *.sublime-workspace
+npm-debug.log
