@@ -27,7 +27,7 @@ function flow(message, originalApiRequest) {
         // TODO
     }
     if (command === '/subscribe') {
-        const ask = new SlackTemplate('Subscribe project!')
+        const ask = new SlackTemplate(msg.ASK_PLATFORM)
             .channelMessage(true)
             .replaceOriginal(true)
             .addAttachment('ask_platform')
@@ -47,7 +47,7 @@ function flow(message, originalApiRequest) {
                         .get()
                 }
 
-                const ask = new SlackTemplate('Unsubscribe project!')
+                const ask = new SlackTemplate(msg.ASK_UNSUBSCRIBE)
                                 .channelMessage(true)
                                 .addAttachment('ask_unsubscribe')
 
@@ -55,7 +55,7 @@ function flow(message, originalApiRequest) {
                 const actions = ask.getLatestAttachment().actions
                 actions.push({
                     name: 'project_list',
-                    text: msg.ASK_UNSUBSCRIBE,
+                    text: 'Choose a project...',
                     type: 'select',
                     options: []
                 })
