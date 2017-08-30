@@ -37,6 +37,10 @@ function flow(message, originalApiRequest) {
     if (text === 'unsubscribe') {
         return db.listSubscriptionPromise(message.sender, 'skype')
                     .then((data) => {
+                        if (data.Items.length === 0) {
+                            return msg.NO_SUBSCRIBED_PROJECT
+                        }
+
                         const ask = new skypeTemplate.Carousel(msg.ASK_UNSUBSCRIBE, msg.ASK_UNSUBSCRIBE).addReceipt()
                         data.Items.forEach((item) => {
                             ask.addButton(item.project_name, item.project_name, 'imBack')
