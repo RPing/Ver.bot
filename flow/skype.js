@@ -36,19 +36,19 @@ function flow(message, originalApiRequest) {
     }
     if (text === 'unsubscribe') {
         return db.listSubscriptionPromise(message.sender, 'skype')
-                    .then((data) => {
-                        if (data.Items.length === 0) {
-                            return msg.NO_SUBSCRIBED_PROJECT
-                        }
+            .then((data) => {
+                if (data.Items.length === 0) {
+                    return msg.NO_SUBSCRIBED_PROJECT
+                }
 
-                        const ask = new skypeTemplate.Carousel(msg.ASK_UNSUBSCRIBE, msg.ASK_UNSUBSCRIBE).addReceipt()
-                        data.Items.forEach((item) => {
-                            ask.addButton(item.project_name, item.project_name, 'imBack')
-                        })
+                const ask = new skypeTemplate.Carousel(msg.ASK_UNSUBSCRIBE, msg.ASK_UNSUBSCRIBE).addReceipt()
+                data.Items.forEach((item) => {
+                    ask.addButton(item.project_name, item.project_name, 'imBack')
+                })
 
-                        return ask.get()
-                    })
-                    .catch(err => promiseErrorHandler(err))
+                return ask.get()
+            })
+            .catch(err => promiseErrorHandler(err))
     }
 
     // Reply
@@ -70,16 +70,16 @@ function flow(message, originalApiRequest) {
         const projectName = /(?:.+)\/(.*?)(?:\/|$)/.exec(url)[1]
 
         return site.pingSitePromise(url, platform)
-                .then(() => db.storeProjectPromise(projectName, message.sender, 'skype', platform))
-                .then(() => msg.REGISTER_FINISHED)
-                .catch(err => promiseErrorHandler(err))
+            .then(() => db.storeProjectPromise(projectName, message.sender, 'skype', platform))
+            .then(() => msg.REGISTER_FINISHED)
+            .catch(err => promiseErrorHandler(err))
     }
 
     // unsubscribe project
     if (site.isProjectName(text)) {
         return db.deleteSubscriptionPromise(text, message.sender, 'skype')
-                .then(() => msg.UNSUBSCRIBE_FINISHED)
-                .catch(err => promiseErrorHandler(err))
+            .then(() => msg.UNSUBSCRIBE_FINISHED)
+            .catch(err => promiseErrorHandler(err))
     }
 
     return msg.UNKNOWN_MESSAGE
