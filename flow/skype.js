@@ -10,10 +10,7 @@ function promiseErrorHandler(err) {
     console.error(err)
 
     const errorMsgKey = error.getErrorType(err)
-    return [
-        msg[errorMsgKey] || msg.UNKNOWN_ERROR,
-        msg.COMMAND_LIST
-    ]
+    return msg[errorMsgKey] || msg.UNKNOWN_ERROR
 }
 
 function flow(message, originalApiRequest) {
