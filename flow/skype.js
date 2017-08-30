@@ -38,7 +38,11 @@ function flow(message, originalApiRequest) {
                     return msg.NO_SUBSCRIBED_PROJECT
                 }
 
-                const ask = new skypeTemplate.Carousel(msg.ASK_UNSUBSCRIBE, msg.ASK_UNSUBSCRIBE).addReceipt()
+                const ask = new skypeTemplate.Carousel(
+                    msg.ASK_UNSUBSCRIBE,
+                    msg.ASK_UNSUBSCRIBE
+                ).addReceipt()
+
                 data.Items.forEach((item) => {
                     ask.addButton(item.project_name, item.project_name, 'imBack')
                 })
