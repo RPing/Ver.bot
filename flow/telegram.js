@@ -57,19 +57,19 @@ function flow(message, originalApiRequest) {
     }
     if (isCommand && text.startsWith('/unsubscribe')) {
         return db.listSubscriptionPromise(message.sender, 'telegram')
-                    .then((data) => {
-                        const wholeArray = []
-                        data.Items.forEach((item) => {
-                            wholeArray.push([{
-                                text: item.project_name,
-                                callback_data: item.project_name
-                            }])
-                        })
+            .then((data) => {
+                const wholeArray = []
+                data.Items.forEach((item) => {
+                    wholeArray.push([{
+                        text: item.project_name,
+                        callback_data: item.project_name
+                    }])
+                })
 
-                        return new telegramTemplate.Text(msg.ASK_UNSUBSCRIBE)
-                                    .addInlineKeyboard(wholeArray).get()
-                    })
-                    .catch(err => promiseErrorHandler(err))
+                return new telegramTemplate.Text(msg.ASK_UNSUBSCRIBE)
+                            .addInlineKeyboard(wholeArray).get()
+            })
+            .catch(err => promiseErrorHandler(err))
     }
 
     if (isReply) {
