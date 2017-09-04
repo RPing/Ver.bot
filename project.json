@@ -9,27 +9,27 @@
             "AttributeType": "S"
         }
     ],
-    "TableName": "ProjectSubscriber",
+    "TableName": "SubscribedProject",
     "KeySchema": [
         {
-            "AttributeName": "project_name",
+            "AttributeName": "subscriber_and_platform",
             "KeyType": "HASH"
         },
         {
-            "AttributeName": "subscriber_and_platform",
+            "AttributeName": "project_name",
             "KeyType": "RANGE"
         }
     ],
     "GlobalSecondaryIndexes": [
         {
-            "IndexName": "UserSubscription",
+            "IndexName": "ProjectSubscriber",
             "KeySchema": [
                 {
-                    "AttributeName": "subscriber_and_platform",
+                    "AttributeName": "project_name",
                     "KeyType": "HASH"
                 },
                 {
-                    "AttributeName": "project_name",
+                    "AttributeName": "subscriber_and_platform",
                     "KeyType": "RANGE"
                 }
             ],
