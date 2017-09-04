@@ -58,6 +58,10 @@ function flow(message, originalApiRequest) {
     if (isCommand && text.startsWith('/unsubscribe')) {
         return db.listSubscriptionPromise(message.sender, 'telegram')
             .then((data) => {
+                if (data.Items.length === 0) {
+                    return msg.NO_SUBSCRIBED_PROJECT
+                }
+
                 const wholeArray = []
                 data.Items.forEach((item) => {
                     wholeArray.push([{
