@@ -133,7 +133,7 @@ function flow(message, originalApiRequest) {
                     }
                 })
 
-                if (!site.isMatchUrlPattern(url, platform)) {
+                if (!site.platformUtil(platform).isMatchUrlPattern(url)) {
                     return [
                         msg.URL_NOTCORRECT,
                         msg.COMMAND_LIST

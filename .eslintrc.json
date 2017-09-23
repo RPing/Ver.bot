@@ -28,7 +28,6 @@
         "no-underscore-dangle": ["error", {
             "allowAfterThis": true,
             "allow": [
-                "_isMatchUrlPattern",
                 "_storeProjectPromise"
             ]
         }],

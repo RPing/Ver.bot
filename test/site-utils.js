@@ -49,19 +49,19 @@ describe('site-utils', function () {
         tests.forEach(function (test) {
             describe(test.site, function () {
                 it('match pattern', function () {
-                    const isMatch = site.isMatchUrlPattern(test.correct, test.site)
+                    const isMatch = site.platformUtil(test.site).isMatchUrlPattern(test.correct)
                     assert.equal(isMatch, true)
                 })
                 it('http prefix will transform to https prefix', function () {
-                    const isMatch = site.isMatchUrlPattern(test.http_prefix, test.site)
+                    const isMatch = site.platformUtil(test.site).isMatchUrlPattern(test.http_prefix)
                     assert.equal(isMatch, true)
                 })
                 it('no protocal prefix is OK', function () {
-                    const isMatch = site.isMatchUrlPattern(test.no_prefix, test.site)
+                    const isMatch = site.platformUtil(test.site).isMatchUrlPattern(test.no_prefix)
                     assert.equal(isMatch, true)
                 })
                 it('unmatch pattern', function () {
-                    const isMatch = site.isMatchUrlPattern(test.typo, test.site)
+                    const isMatch = site.platformUtil(test.site).isMatchUrlPattern(test.typo)
                     assert.equal(isMatch, false)
                 })
             })
