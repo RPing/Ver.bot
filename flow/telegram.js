@@ -140,7 +140,7 @@ function flow(message, originalApiRequest) {
                     ]
                 }
 
-                return site.pingSitePromise(url, platform)
+                return site.pingSitePromise(url)
                     .then(() => db.storeProjectPromise(projectName, message.sender, 'telegram', platform))
                     .then(() => msg.REGISTER_FINISHED)
                     .catch(err => promiseErrorHandler(err))

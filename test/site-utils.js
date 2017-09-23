@@ -5,7 +5,7 @@ describe('site-utils', function () {
     describe('ping site', function () {
         this.slow(3000)
         it('ping correct url', function (done) {
-            site.pingSitePromise('https://github.com/torvalds/linux', 'GitHub')
+            site.pingSitePromise('https://github.com/torvalds/linux')
             .then((isOk) => {
                 done()
             })
@@ -15,7 +15,7 @@ describe('site-utils', function () {
         })
         this.slow(3000)
         it('wrong url', function (done) {
-            site.pingSitePromise('https://github.com/torvalds/linu', 'GitHub')
+            site.pingSitePromise('https://github.com/torvalds/linu')
             .then((isOk) => {
                 done(new Error('Omitted \'x\' in the end! This shouldn\'t be 200 OK.'))
             })

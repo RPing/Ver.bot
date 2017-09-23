@@ -29,7 +29,6 @@
             "allowAfterThis": true,
             "allow": [
                 "_isMatchUrlPattern",
-                "_pingSitePromise",
                 "_storeProjectPromise"
             ]
         }],

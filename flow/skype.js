@@ -70,7 +70,7 @@ function flow(message, originalApiRequest) {
         }
         const projectName = /(?:.+)\/(.*?)(?:\/|$)/.exec(url)[1]
 
-        return site.pingSitePromise(url, platform)
+        return site.pingSitePromise(url)
             .then(() => db.storeProjectPromise(projectName, message.sender, 'skype', platform))
             .then(() => msg.REGISTER_FINISHED)
             .catch(err => promiseErrorHandler(err))
