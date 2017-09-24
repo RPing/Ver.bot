@@ -64,6 +64,11 @@ describe('site-utils', function () {
                     const isMatch = site.platformUtil(test.site).isMatchUrlPattern(test.typo)
                     assert.equal(isMatch, false)
                 })
+                it('too long length', function () {
+                    const longUrl = new Array(202).join('x') // length 201
+                    const isMatch = site.platformUtil(test.site).isMatchUrlPattern(longUrl)
+                    assert.equal(isMatch, false)
+                })
             })
         })
     })
@@ -81,8 +86,13 @@ describe('site-utils', function () {
             const isMatch = site.isProjectName('spee.ch')
             assert.equal(isMatch, true)
         })
-        it('invalid', function () {
+        it('invalid pattern', function () {
             const isMatch = site.isProjectName('spee~ch')
+            assert.equal(isMatch, false)
+        })
+        it('invalid length', function () {
+            const longName = new Array(102).join('x') // length 101
+            const isMatch = site.isProjectName(longName)
             assert.equal(isMatch, false)
         })
     })
