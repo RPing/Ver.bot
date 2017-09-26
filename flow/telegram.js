@@ -123,17 +123,8 @@ function flow(message, originalApiRequest) {
                 }
                 const url = text.substr(origMsg.entities[0].offset, origMsg.entities[0].length)
                 const projectName = /(?:.+)\/(.*?)(?:\/|$)/.exec(url)[1]
-                /* I don't want to store tmp state to dynamoDB,
-                   so ... just check platform by example url */
-                const exampleUrl = lastAsk.split('\ne.g. ')[1]
-                let platform
-                projectPlatforms.forEach((p) => {
-                    if (msg.EXAMPLE_URL[p] === exampleUrl) {
-                        platform = p
-                    }
-                })
-
-                if (!site.platformUtil(platform).isMatchUrlPattern(url)) {
+                const platform = site.getPlatformByUrl(url)
+                if (!platform) {
                     return [
                         msg.URL_NOTCORRECT,
                         msg.COMMAND_LIST
