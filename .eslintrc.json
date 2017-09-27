@@ -28,6 +28,7 @@
         "no-underscore-dangle": ["error", {
             "allowAfterThis": true,
             "allow": [
+                "_singleton"
             ]
         }],
         "one-var": ["warn", {

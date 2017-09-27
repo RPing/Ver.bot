@@ -89,10 +89,9 @@ function flow(message, originalApiRequest) {
         if (!platform) {
             return msg.URL_NOTCORRECT
         }
-        const projectName = /(?:.+)\/(.*?)(?:\/|$)/.exec(url)[1]
 
         return site.pingSitePromise(url)
-            .then(() => db.storeProjectPromise(projectName, message.sender, 'slack', platform))
+            .then(() => db.storeProjectPromise(message.sender, 'slack', platform))
             .then(() => msg.REGISTER_FINISHED)
             .catch(err => promiseErrorHandler(err))
     }

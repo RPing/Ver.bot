@@ -122,7 +122,6 @@ function flow(message, originalApiRequest) {
                     ]
                 }
                 const url = text.substr(origMsg.entities[0].offset, origMsg.entities[0].length)
-                const projectName = /(?:.+)\/(.*?)(?:\/|$)/.exec(url)[1]
                 const platform = site.getPlatformByUrl(url)
                 if (!platform) {
                     return [
@@ -132,7 +131,7 @@ function flow(message, originalApiRequest) {
                 }
 
                 return site.pingSitePromise(url)
-                    .then(() => db.storeProjectPromise(projectName, message.sender, 'telegram', platform))
+                    .then(() => db.storeProjectPromise(message.sender, 'telegram', platform))
                     .then(() => msg.REGISTER_FINISHED)
                     .catch(err => promiseErrorHandler(err))
             }
