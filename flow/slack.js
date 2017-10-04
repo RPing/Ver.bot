@@ -36,7 +36,9 @@ function flow(message, originalApiRequest) {
         return ask.get()
     }
     if (command === '/unsubscribe') {
-        return db.listSubscriptionPromise(message.sender, 'slack')
+        const channelId = message.originalRequest.channel_id
+
+        return db.listSubscriptionPromise(channelId, 'slack')
             .then((data) => {
                 if (data.Items.length === 0) {
                     return new SlackTemplate(msg.NO_SUBSCRIBED_PROJECT)
@@ -76,7 +78,8 @@ function flow(message, originalApiRequest) {
     }
     if (callback_id === 'ask_unsubscribe') {
         const answer = message.originalRequest.actions[0].selected_options[0].value
-        return db.deleteSubscriptionPromise(answer, message.sender, 'slack')
+        const channelId = message.originalRequest.channel.id
+        return db.deleteSubscriptionPromise(answer, channelId, 'slack')
             .then(() => msg.UNSUBSCRIBE_FINISHED)
             .catch(err => promiseErrorHandler(err))
     }
@@ -86,12 +89,13 @@ function flow(message, originalApiRequest) {
     if (text.startsWith('<')) {
         const url = text.slice(1, -1)
         const platform = site.getPlatformByUrl(url)
+        const channelId = message.originalRequest.event.channel
         if (!platform) {
             return msg.URL_NOTCORRECT
         }
 
         return site.pingSitePromise(url)
-            .then(() => db.storeProjectPromise(message.sender, 'slack', platform))
+            .then(() => db.storeProjectPromise(channelId, 'slack', platform))
             .then(() => msg.REGISTER_FINISHED)
             .catch(err => promiseErrorHandler(err))
     }
