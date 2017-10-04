@@ -18,7 +18,9 @@ function flow(message, originalApiRequest) {
     const text = message.text
 
     if (command === '/helpv') {
-        return msg.SLACK_COMMAND_LIST
+        return new SlackTemplate(msg.SLACK_COMMAND_LIST)
+            .channelMessage(true)
+            .get()
     }
     if (command === '/about') {
         // TODO
@@ -26,8 +28,8 @@ function flow(message, originalApiRequest) {
     if (command === '/subscribe') {
         const ask = new SlackTemplate(msg.ASK_PLATFORM)
             .channelMessage(true)
-            .replaceOriginal(true)
             .addAttachment('ask_platform')
+            .addColor('#000000')
 
         projectPlatforms.forEach((name) => {
             ask.addAction(name, 'button', name)
@@ -49,6 +51,7 @@ function flow(message, originalApiRequest) {
                 const ask = new SlackTemplate(msg.ASK_UNSUBSCRIBE)
                                 .channelMessage(true)
                                 .addAttachment('ask_unsubscribe')
+                                .addColor('#ff0000')
 
                 // TODO: claudia-bot-builder Slack select menu support!
                 const actions = ask.getLatestAttachment().actions
@@ -74,7 +77,7 @@ function flow(message, originalApiRequest) {
     const callback_id = message.originalRequest.callback_id
     if (callback_id === 'ask_platform') {
         const answer = message.originalRequest.actions[0].value
-        return msg.ASK_PLATFORM + '\ne.g. ' + msg.EXAMPLE_URL[answer]
+        return msg.ASK_URL + '\ne.g. ' + msg.EXAMPLE_URL[answer]
     }
     if (callback_id === 'ask_unsubscribe') {
         const answer = message.originalRequest.actions[0].selected_options[0].value
