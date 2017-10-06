@@ -13,7 +13,7 @@ function promiseErrorHandler(err) {
     return msg[errorMsgKey] || msg.UNKNOWN_ERROR
 }
 
-function flow(message, originalApiRequest) {
+function flow(message) {
     const command = message.originalRequest.command
     const text = message.text
 

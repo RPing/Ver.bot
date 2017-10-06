@@ -16,7 +16,7 @@ function promiseErrorHandler(err) {
     ]
 }
 
-function flow(message, originalApiRequest) {
+function flow(message) {
     const text = message.text
     const origMsg = message.originalRequest.message
     /* refer to Telegram doc:

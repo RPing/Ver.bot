@@ -13,7 +13,7 @@ function promiseErrorHandler(err) {
     return msg[errorMsgKey] || msg.UNKNOWN_ERROR
 }
 
-function flow(message, originalApiRequest) {
+function flow(message) {
     const text = message.text
 
     if (text === 'help') {
