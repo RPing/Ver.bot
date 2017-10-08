@@ -103,6 +103,12 @@ function flow(message) {
             .catch(err => promiseErrorHandler(err))
     }
 
+    // filter the fucking duplicate event api messages
+    if (message.subtype === 'slack-events-api' &&
+        (text === '' || text.startsWith('/'))) {
+        return ''
+    }
+
     return msg.UNKNOWN_MESSAGE
 }
 
