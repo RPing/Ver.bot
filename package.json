@@ -7,6 +7,13 @@
     "pretest": "eslint .",
     "test": "mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RPing/Vbot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RPing/Vbot/issues"
+  },
   "keywords": [
     "bot",
     "version",
@@ -17,7 +24,7 @@
     "skype"
   ],
   "author": "RPing (Stephen Chen) <g1222888@gmail.com>",
-  "license": "AGPL v3",
+  "license": "AGPL-3.0",
   "dependencies": {
     "claudia-bot-builder": "RPing/claudia-bot-builder#production",
     "request": "^2.81.0"
