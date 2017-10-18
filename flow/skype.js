@@ -4,6 +4,13 @@ const db = require('../lib/db')
 const site = require('../lib/site-utils')
 const error = require('../lib/error')
 
+const COMMAND_LIST =
+    'Here are available commands:\n\n' +
+    '**subscribe** can choose the project that Ver.bot can automatically inform you when they release new version\n\n' +
+    '**unsubscribe** to cancel the project you subscribe\n\n' +
+    '**help** to show command list\n\n' +
+    '**about** can tell you some information about Ver.bot'
+
 const projectPlatforms = Object.keys(msg.EXAMPLE_URL)
 
 function promiseErrorHandler(err) {
@@ -17,7 +24,7 @@ function flow(message) {
     const text = message.text
 
     if (text === 'help') {
-        return new skypeTemplate.Text(msg.SKYPE_COMMAND_LIST, 'markdown').get()
+        return new skypeTemplate.Text(COMMAND_LIST, 'markdown').get()
     }
     if (text === 'about') {
         // TODO

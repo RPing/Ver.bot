@@ -4,6 +4,13 @@ const db = require('../lib/db')
 const error = require('../lib/error')
 const SlackTemplate = require('claudia-bot-builder').slackTemplate
 
+const COMMAND_LIST =
+    'Here are available commands:\n' +
+    '/subscribe can choose the project that Ver.bot can automatically inform you when they release new version\n' +
+    '/unsubscribe to cancel the project you subscribe\n' +
+    '/helpv to show command list\n' +
+    '/about can tell you some information about Ver.bot'
+
 const projectPlatforms = Object.keys(msg.EXAMPLE_URL)
 
 function promiseErrorHandler(err) {
@@ -18,7 +25,7 @@ function flow(message) {
     const text = message.text
 
     if (command === '/helpv') {
-        return new SlackTemplate(msg.SLACK_COMMAND_LIST)
+        return new SlackTemplate(COMMAND_LIST)
             .channelMessage(true)
             .get()
     }

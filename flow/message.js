@@ -5,27 +5,6 @@ const msg = {
 
     ASK_UNSUBSCRIBE: 'Which project you want to cancel subscription?',
 
-    COMMAND_LIST:
-        'Here are available commands:\n' +
-        '/subscribe can choose the project that Ver.bot can automatically inform you when they release new version\n' +
-        '/unsubscribe to cancel the project you subscribe\n' +
-        '/help to show command list\n' +
-        '/about can tell you some information about Ver.bot',
-
-    SLACK_COMMAND_LIST:
-        'Here are available commands:\n' +
-        '/subscribe can choose the project that Ver.bot can automatically inform you when they release new version\n' +
-        '/unsubscribe to cancel the project you subscribe\n' +
-        '/helpv to show command list\n' +
-        '/about can tell you some information about Ver.bot',
-
-    SKYPE_COMMAND_LIST:
-        'Here are available commands:\n\n' +
-        '**subscribe** can choose the project that Ver.bot can automatically inform you when they release new version\n\n' +
-        '**unsubscribe** to cancel the project you subscribe\n\n' +
-        '**help** to show command list\n\n' +
-        '**about** can tell you some information about Ver.bot',
-
     REGISTER_FINISHED: 'OK. I will check this project every several days.',
 
     UNSUBSCRIBE_FINISHED: 'unsubscription complete.',

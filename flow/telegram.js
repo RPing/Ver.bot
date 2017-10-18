@@ -4,6 +4,13 @@ const db = require('../lib/db')
 const msg = require('./message')
 const error = require('../lib/error')
 
+const COMMAND_LIST =
+    'Here are available commands:\n' +
+    '/subscribe can choose the project that Ver.bot can automatically inform you when they release new version\n' +
+    '/unsubscribe to cancel the project you subscribe\n' +
+    '/help to show command list\n' +
+    '/about can tell you some information about Ver.bot'
+
 const projectPlatforms = Object.keys(msg.EXAMPLE_URL)
 
 function promiseErrorHandler(err) {
@@ -12,7 +19,7 @@ function promiseErrorHandler(err) {
     const errorMsgKey = error.getErrorType(err)
     return [
         msg[errorMsgKey] || msg.UNKNOWN_ERROR,
-        msg.COMMAND_LIST
+        COMMAND_LIST
     ]
 }
 
@@ -34,10 +41,10 @@ function flow(message) {
     }
 
     if (text === '/start') {
-        return msg.COMMAND_LIST
+        return COMMAND_LIST
     }
     if (isCommand && text.startsWith('/help')) {
-        return msg.COMMAND_LIST
+        return COMMAND_LIST
     }
     if (isCommand && text.startsWith('/about')) {
         // TODO
@@ -118,7 +125,7 @@ function flow(message) {
                 if (!origMsg.hasOwnProperty('entities') || origMsg.entities[0].type !== 'url') {
                     return [
                         msg.URL_NOTFOUND,
-                        msg.COMMAND_LIST
+                        COMMAND_LIST
                     ]
                 }
                 const url = text.substr(origMsg.entities[0].offset, origMsg.entities[0].length)
@@ -126,7 +133,7 @@ function flow(message) {
                 if (!platform) {
                     return [
                         msg.URL_NOTCORRECT,
-                        msg.COMMAND_LIST
+                        COMMAND_LIST
                     ]
                 }
 
@@ -150,7 +157,7 @@ function flow(message) {
 
     return [
         msg.UNKNOWN_MESSAGE,
-        msg.COMMAND_LIST
+        COMMAND_LIST
     ]
 }
 
