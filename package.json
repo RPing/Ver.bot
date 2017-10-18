@@ -1,7 +1,7 @@
 {
-  "name": "vbot",
+  "name": "ver.bot",
   "version": "0.0.1",
-  "description": "how to know new version release? Vbot!",
+  "description": "how to know new version release? Ver.bot!",
   "main": "bot.js",
   "scripts": {
     "pretest": "eslint .",
@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RPing/Vbot.git"
+    "url": "git+https://github.com/RPing/Ver.bot.git"
   },
   "bugs": {
-    "url": "https://github.com/RPing/Vbot/issues"
+    "url": "https://github.com/RPing/Ver.bot/issues"
   },
   "keywords": [
     "bot",

@@ -28,7 +28,7 @@ function flow(message) {
                   && origMsg.hasOwnProperty('entities')
                   && origMsg.entities[0].type === 'bot_command'
 
-    /* when Vbot is in a group, any member join/remove message should be ignored. */
+    /* when Ver.bot is in a group, any member join/remove message should be ignored. */
     if (text === '') {
         return ''
     }
