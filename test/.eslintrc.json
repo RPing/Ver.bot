@@ -3,6 +3,7 @@
         "mocha": true
     },
     "rules": {
+        "max-len": "off",
         "no-unused-vars": "off",
         "prefer-arrow-callback": "off",
         "func-names": "off"

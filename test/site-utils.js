@@ -32,25 +32,42 @@ describe('site-utils', function () {
             http_prefix: 'http://github.com/torvalds/linux',
             no_prefix: 'github.com/torvalds/linux',
             typo: 'https://githuv.com/torvalds/linux',
+            expectedProjectInfo: {
+                project_author: 'torvalds',
+                project_name: 'linux'
+            }
         }, {
             site: 'PyPI',
             correct: 'https://pypi.python.org/pypi/Django',
             http_prefix: 'http://pypi.python.org/pypi/Django',
             no_prefix: 'pypi.python.org/pypi/Django',
             typo: 'pypi.python.org//pypi/Django',
+            expectedProjectInfo: {
+                project_name: 'Django'
+            }
         }, {
             site: 'npm',
             correct: 'https://www.npmjs.com/package/express',
             http_prefix: 'http://www.npmjs.com/package/express',
             no_prefix: 'www.npmjs.com/package/express',
             typo: 'https://www.npmj.com/package/express',
+            expectedProjectInfo: {
+                project_name: 'express'
+            }
         }]
 
         tests.forEach(function (test) {
             describe(test.site, function () {
-                it('match pattern', function () {
+                describe('match pattern and retrieve url information', function () {
                     const isMatch = site.platformUtil(test.site).isMatchUrlPattern(test.correct)
-                    assert.equal(isMatch, true)
+                    const projectInfo = site.platformUtil(test.site).getProjectInfo(test.exampleURL)
+
+                    it('first', function () {
+                        assert.equal(isMatch, true)
+                    })
+                    it('second', function () {
+                        assert.deepEqual(projectInfo, test.expectedProjectInfo)
+                    })
                 })
                 it('http prefix will transform to https prefix', function () {
                     const isMatch = site.platformUtil(test.site).isMatchUrlPattern(test.http_prefix)
