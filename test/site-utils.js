@@ -1,8 +1,6 @@
 const site = require('../lib/site-utils')
 const assert = require('assert')
 
-// singleton & error
-
 describe('site-utils', function () {
     const tests = [{
         site: 'GitHub',
@@ -70,14 +68,14 @@ describe('site-utils', function () {
     describe('match site-specific url', function () {
         tests.forEach(function (test) {
             describe(test.site, function () {
-                describe('match pattern and retrieve url information', function () {
+                describe('correct', function () {
                     const isMatch = site.platformUtil(test.site).isMatchUrlPattern(test.correct)
                     const projectInfo = site.platformUtil(test.site).getProjectInfo(test.exampleURL)
 
-                    it('first', function () {
+                    it('match pattern', function () {
                         assert.equal(isMatch, true)
                     })
-                    it('second', function () {
+                    it('retrieve url information', function () {
                         assert.deepEqual(projectInfo, test.expectedProjectInfo)
                     })
                 })
