@@ -1,7 +1,49 @@
 const site = require('../lib/site-utils')
 const assert = require('assert')
 
+// singleton & error
+
 describe('site-utils', function () {
+    const tests = [{
+        site: 'GitHub',
+        correct: 'https://github.com/torvalds/linux',
+        http_prefix: 'http://github.com/torvalds/linux',
+        no_prefix: 'github.com/torvalds/linux',
+        typo: 'https://githuv.com/torvalds/linux',
+        expectedProjectInfo: {
+            project_author: 'torvalds',
+            project_name: 'linux'
+        }
+    }, {
+        site: 'PyPI',
+        correct: 'https://pypi.python.org/pypi/Django',
+        http_prefix: 'http://pypi.python.org/pypi/Django',
+        no_prefix: 'pypi.python.org/pypi/Django',
+        typo: 'pypi.python.org//pypi/Django',
+        expectedProjectInfo: {
+            project_name: 'Django'
+        }
+    }, {
+        site: 'npm',
+        correct: 'https://www.npmjs.com/package/express',
+        http_prefix: 'http://www.npmjs.com/package/express',
+        no_prefix: 'www.npmjs.com/package/express',
+        typo: 'https://www.npmj.com/package/express',
+        expectedProjectInfo: {
+            project_name: 'express'
+        }
+    }]
+
+    describe('singleton', function () {
+        tests.forEach(function (test) {
+            it(test.site, function () {
+                const a = site.platformUtil(test.site)
+                const b = site.platformUtil(test.site)
+                assert.equal(a, b)
+            })
+        })
+    })
+
     describe('ping site', function () {
         this.slow(3000)
         it('ping correct url', function (done) {
@@ -26,36 +68,6 @@ describe('site-utils', function () {
     })
 
     describe('match site-specific url', function () {
-        const tests = [{
-            site: 'GitHub',
-            correct: 'https://github.com/torvalds/linux',
-            http_prefix: 'http://github.com/torvalds/linux',
-            no_prefix: 'github.com/torvalds/linux',
-            typo: 'https://githuv.com/torvalds/linux',
-            expectedProjectInfo: {
-                project_author: 'torvalds',
-                project_name: 'linux'
-            }
-        }, {
-            site: 'PyPI',
-            correct: 'https://pypi.python.org/pypi/Django',
-            http_prefix: 'http://pypi.python.org/pypi/Django',
-            no_prefix: 'pypi.python.org/pypi/Django',
-            typo: 'pypi.python.org//pypi/Django',
-            expectedProjectInfo: {
-                project_name: 'Django'
-            }
-        }, {
-            site: 'npm',
-            correct: 'https://www.npmjs.com/package/express',
-            http_prefix: 'http://www.npmjs.com/package/express',
-            no_prefix: 'www.npmjs.com/package/express',
-            typo: 'https://www.npmj.com/package/express',
-            expectedProjectInfo: {
-                project_name: 'express'
-            }
-        }]
-
         tests.forEach(function (test) {
             describe(test.site, function () {
                 describe('match pattern and retrieve url information', function () {
