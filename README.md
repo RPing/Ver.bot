@@ -3,21 +3,24 @@ Ver.bot webhook part.
 
 ## Deploy by yourself
 1. install dependency
-
-    npm i
+```bash
+npm i
+```
 
 2. before deploy to AWS, [install AWS CLI][1] and [configure it][2].
 
 3. create AWS dynamoDB tables.
-
-    aws dynamodb create-table --cli-input-json file://aws/dynamodb/project.json
-    aws dynamodb create-table --cli-input-json file://aws/dynamodb/project_detail.json
+```bash
+aws dynamodb create-table --cli-input-json file://aws/dynamodb/project.json
+aws dynamodb create-table --cli-input-json file://aws/dynamodb/project_detail.json
+```
 
 4. create, update or destroy it.
-
-    npm run create
-    npm run update
-    npm run destroy
+```bash
+npm run create
+npm run update
+npm run destroy
+```
 
 You can use tools like [ntl][3] to avoid typing.
 Now, AWS API gateway and AWS Lambda are all set!
