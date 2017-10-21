@@ -4,6 +4,9 @@
   "description": "how to know new version release? Ver.bot!",
   "main": "bot.js",
   "scripts": {
+    "create": "claudia create --name Verbot --region us-east-1 --api-module bot --policies aws/policy.json",
+    "update": "claudia update --no-optional-dependencies",
+    "destroy": "claudia destroy",
     "pretest": "eslint .",
     "test": "mocha"
   },
