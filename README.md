@@ -3,32 +3,29 @@ Ver.bot webhook part.
 
 ## Deploy by yourself
 1. install dependency
-```bash
-    $ npm i
-```
+
+    npm i
 
 2. before deploy to AWS, [install AWS CLI][1] and [configure it][2].
 
 3. create AWS dynamoDB tables.
-```bash
-    $ aws dynamodb create-table --cli-input-json file://aws/dynamodb/project.json
-    $ aws dynamodb create-table --cli-input-json file://aws/dynamodb/project_detail.json
-```
+
+    aws dynamodb create-table --cli-input-json file://aws/dynamodb/project.json
+    aws dynamodb create-table --cli-input-json file://aws/dynamodb/project_detail.json
 
 4. create, update or destroy it.
-```bash
-    $ npm run create
-    $ npm run update
-    $ npm run destroy
-```
 
-    You can use tools like [ntl][3] to avoid typing.
-    Now, AWS API gateway and AWS Lambda are all set!
+    npm run create
+    npm run update
+    npm run destroy
 
-    Default deploy region is `us-east-1`. For more tweaking information in `package.json`, refer to [Claudia docs][4].
+You can use tools like [ntl][3] to avoid typing.
+Now, AWS API gateway and AWS Lambda are all set!
+
+Default deploy region is `us-east-1`. For more tweaking information in `package.json`, refer to [Claudia docs][4].
 
 ## LICENSE
-[AGPL-3.0][LICENSE]
+[AGPL-3.0](LICENSE)
 
 [1]: http://docs.aws.amazon.com/cli/latest/userguide/installing.html
 [2]:  http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
