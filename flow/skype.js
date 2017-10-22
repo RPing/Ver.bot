@@ -21,7 +21,14 @@ function promiseErrorHandler(err) {
 }
 
 function flow(message) {
-    const text = message.text
+    let text = message.text
+    const isGroup = message.originalRequest.conversation.isGroup
+
+    if (isGroup) {
+        const re = /.Ver\.bot (.*)/
+        const a = message.text.match(re)
+        text = a[1]
+    }
 
     if (text === 'help') {
         return new skypeTemplate.Text(COMMAND_LIST, 'markdown').get()
