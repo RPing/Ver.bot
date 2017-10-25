@@ -13,7 +13,7 @@
 
 Ver.bot webhook part.
 
-Notify part in [here](https://github.com/RPing/Ver.bot-notify)
+Notify part in [here](https://github.com/RPing/Ver.bot-notify).
 
 ## Deploy by yourself
 1. install dependency
@@ -29,10 +29,13 @@ aws dynamodb create-table --cli-input-json file://aws/dynamodb/project.json
 aws dynamodb create-table --cli-input-json file://aws/dynamodb/project_detail.json
 ```
 
-4. create, update or destroy it.
+4. create, update, configure tokens or destroy it.
 ```bash
 npm run create
 npm run update
+npm run configure-slack
+npm run configure-telegram
+npm run configure-skype
 npm run destroy
 ```
 

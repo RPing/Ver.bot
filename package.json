@@ -6,6 +6,9 @@
   "scripts": {
     "create": "claudia create --name Verbot --region us-east-1 --api-module bot --policies aws/policy.json",
     "update": "claudia update --no-optional-dependencies",
+    "configure-slack": "claudia update --no-optional-dependencies --configure-slack-slash-app",
+    "configure-telegram": "claudia update --no-optional-dependencies --configure-telegram-bot",
+    "configure-skype": "claudia update --no-optional-dependencies --configure-skype-bot",
     "destroy": "claudia destroy",
     "pretest": "eslint .",
     "test": "mocha"
