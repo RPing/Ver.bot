@@ -36,6 +36,10 @@ const msg = {
         PyPI: 'https://pypi.python.org/pypi/Django',
         npm: 'https://www.npmjs.com/package/express',
     },
+
+    ABOUT:
+        'If you have any question, post an issue in\nhttps://github.com/RPing/Ver.bot/issues\n' +
+        'To support AWS Lambda and EC2 running, please donate\nhttps://goo.gl/9czXSn (paypal link)'
 }
 
 module.exports = msg

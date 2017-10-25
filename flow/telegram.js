@@ -47,7 +47,7 @@ function flow(message) {
         return COMMAND_LIST
     }
     if (isCommand && text.startsWith('/about')) {
-        // TODO
+        return msg.ABOUT
     }
     if (isCommand && text.startsWith('/subscribe')) {
         const rowChoice = []

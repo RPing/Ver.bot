@@ -30,7 +30,9 @@ function flow(message) {
             .get()
     }
     if (command === '/about') {
-        // TODO
+        return new SlackTemplate(msg.ABOUT)
+            .channelMessage(true)
+            .get()
     }
     if (command === '/subscribe') {
         const ask = new SlackTemplate(msg.ASK_PLATFORM)

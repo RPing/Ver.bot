@@ -34,7 +34,7 @@ function flow(message) {
         return new skypeTemplate.Text(COMMAND_LIST, 'markdown').get()
     }
     if (text === 'about') {
-        // TODO
+        return new skypeTemplate.Text(msg.ABOUT).get()
     }
     if (text === 'subscribe') {
         // TODO: if bot framework add type AdaptiveCard, then I can remove the stupid `addReceipt`
