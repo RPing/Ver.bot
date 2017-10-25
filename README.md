@@ -1,5 +1,19 @@
 # Ver.bot
+
+<div align="center">
+        <img src="https://rping.github.io/Ver.bot-site/img/vbot.png" width="160">
+</div>
+<br />
+
+<div align="center">
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SVRBTQKRQ5VGE)
+
+</div>
+
 Ver.bot webhook part.
+
+Notify part in [here](https://github.com/RPing/Ver.bot-notify)
 
 ## Deploy by yourself
 1. install dependency
