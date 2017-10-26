@@ -7,6 +7,7 @@
 
 <div align="center">
 
+[![Build Status](https://travis-ci.org/RPing/Ver.bot.svg?branch=master)](https://travis-ci.org/RPing/Ver.bot)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SVRBTQKRQ5VGE)
 
 </div>
