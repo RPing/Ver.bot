@@ -39,6 +39,7 @@ const msg = {
 
     ABOUT:
         'If you have any question, post an issue in\nhttps://github.com/RPing/Ver.bot/issues\n' +
+        'Or if you find some security issue, contact me\ng1222888@gmail.com\n' +
         'To support AWS Lambda and EC2 running, please donate\nhttps://goo.gl/9czXSn (paypal link)'
 }
 
