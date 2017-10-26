@@ -13,9 +13,12 @@
 
 Ver.bot webhook part.
 
-Notify part in [here](https://github.com/RPing/Ver.bot-notify).
+Notify part in [here][5].
 
 ## Deploy by yourself
+
+**NOTE:** You should deploy the same **major version** as [notify part][5].
+
 1. install dependency
 ```bash
 npm i
@@ -51,3 +54,4 @@ Default deploy region is `us-east-1`. For more tweaking information in `package.
 [2]:  http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
 [3]: https://github.com/ruyadorno/ntl
 [4]: https://github.com/claudiajs/claudia/tree/master/docs
+[5]: https://github.com/RPing/Ver.bot-notify
