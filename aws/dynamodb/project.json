@@ -1,18 +1,22 @@
 {
     "AttributeDefinitions": [
         {
-            "AttributeName": "subscriber_and_platform",
+            "AttributeName": "subscriber_id",
             "AttributeType": "S"
         },
         {
             "AttributeName": "project_name",
             "AttributeType": "S"
+        },
+        {
+            "AttributeName": "subscriber_platform",
+            "AttributeType": "N"
         }
     ],
     "TableName": "SubscribedProject",
     "KeySchema": [
         {
-            "AttributeName": "subscriber_and_platform",
+            "AttributeName": "subscriber_id",
             "KeyType": "HASH"
         },
         {
@@ -29,16 +33,34 @@
                     "KeyType": "HASH"
                 },
                 {
-                    "AttributeName": "subscriber_and_platform",
+                    "AttributeName": "subscriber_id",
+                    "KeyType": "RANGE"
+                }
+            ],
+            "Projection": {
+                "ProjectionType": "ALL"
+            },
+            "ProvisionedThroughput": {
+                "ReadCapacityUnits": 5,
+                "WriteCapacityUnits": 5
+            }
+        }
+    ],
+    "LocalSecondaryIndexes": [
+        {
+            "IndexName": "BySubscriber",
+            "KeySchema": [
+                {
+                    "AttributeName": "subscriber_id",
+                    "KeyType": "HASH"
+                },
+                {
+                    "AttributeName": "subscriber_platform",
                     "KeyType": "RANGE"
                 }
             ],
             "Projection": {
                 "ProjectionType": "KEYS_ONLY"
-            },
-            "ProvisionedThroughput": {
-                "ReadCapacityUnits": 5,
-                "WriteCapacityUnits": 5
             }
         }
     ],
