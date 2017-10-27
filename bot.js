@@ -12,9 +12,6 @@ const options = {
 }
 
 module.exports = botBuilder((message, originalApiRequest) => {
-    console.log(JSON.stringify(message))
-    console.log(JSON.stringify(originalApiRequest))
-
     if (message.type === 'telegram') {
         return telegramFlow(message, originalApiRequest)
     }
