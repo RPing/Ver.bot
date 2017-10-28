@@ -24,7 +24,7 @@ function flow(message) {
     const command = message.originalRequest.command
     const text = message.text
 
-    if (command === '/helpv') {
+    if (command === '/helpv' || text === 'help') {
         return new SlackTemplate(COMMAND_LIST)
             .channelMessage(true)
             .get()
