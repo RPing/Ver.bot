@@ -32,6 +32,10 @@ npm i
 aws dynamodb create-table --cli-input-json file://aws/dynamodb/project.json
 aws dynamodb create-table --cli-input-json file://aws/dynamodb/project_detail.json
 ```
+And if you want to publish your Slack APP, you should store user Oauth tokens.
+```bash
+aws dynamodb create-table --cli-input-json file://aws/dynamodb/slack_oauth_token.json
+```
 
 4. create, update, configure tokens or destroy it.
 ```bash

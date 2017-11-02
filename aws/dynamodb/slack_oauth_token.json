@@ -1,0 +1,44 @@
+{
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "channel_id",
+            "AttributeType": "S"
+        },
+        {
+            "AttributeName": "bot_user_id",
+            "AttributeType": "S"
+        }
+    ],
+    "TableName": "SlackToken",
+    "KeySchema": [
+        {
+            "AttributeName": "channel_id",
+            "KeyType": "HASH"
+        }
+    ],
+    "GlobalSecondaryIndexes": [
+        {
+            "IndexName": "ByBotUserId",
+            "KeySchema": [
+                {
+                    "AttributeName": "bot_user_id",
+                    "KeyType": "HASH"
+                }
+            ],
+            "Projection": {
+                "ProjectionType": "ALL"
+            },
+            "ProvisionedThroughput": {
+                "ReadCapacityUnits": 5,
+                "WriteCapacityUnits": 5
+            }
+        }
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+    },
+    "StreamSpecification": {
+        "StreamEnabled": false
+    }
+}
